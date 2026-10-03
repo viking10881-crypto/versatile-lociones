@@ -7,6 +7,12 @@ import type { Catalog } from "./types"
 
 export type { Catalog, Family, Product } from "./types"
 
+/** Producto por slug (`nombre-id`), leído del mismo catálogo cacheado. */
+export async function getProduct(slug: string) {
+  const { products } = await getCatalog()
+  return products.find((product) => product.slug === slug) ?? null
+}
+
 /**
  * Catálogo de la tienda. Con DELASOFT_PUBLIC_API_KEY configurada lee los productos
  * publicados desde el admin de Delasoft; sin ella usa los datos de ejemplo.

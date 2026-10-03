@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react"
 import { ArrowRight } from "lucide-react"
 import { Reveal, SplitText, ease } from "@/components/motion/reveal"
@@ -46,8 +47,8 @@ export function Families({ families, products }: { families: Family[]; products:
           {families.map((family, i) => (
             <li key={family.name} className="border-b border-border">
               <Reveal delay={i * 0.05} y={20}>
-                <a
-                  href={`#familia-${family.slug}`}
+                <Link
+                  href={`/lociones?familia=${family.slug}`}
                   onPointerEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}
                   onBlur={() => setActive(null)}
@@ -67,7 +68,7 @@ export function Families({ families, products }: { families: Family[]; products:
                       <ArrowRight className="size-4 transition-transform duration-500 group-hover:-rotate-45" />
                     </span>
                   </span>
-                </a>
+                </Link>
               </Reveal>
             </li>
           ))}

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import { motion, useScroll, useTransform } from "motion/react"
 import { ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -40,9 +41,9 @@ export function Collection({ products }: { products: Product[] }) {
             <SplitText text="La colección" />
           </h2>
           <Button asChild variant="outline" className="hidden h-11 rounded-full bg-transparent px-5 sm:inline-flex">
-            <a href="#mas-vendidos">
-              Ver todo <ArrowUpRight data-icon="inline-end" />
-            </a>
+            <Link href="/lociones">
+              Ver todas <ArrowUpRight data-icon="inline-end" />
+            </Link>
           </Button>
         </div>
 
@@ -72,8 +73,8 @@ export function Collection({ products }: { products: Product[] }) {
 
 function FeaturedCard({ product, index, total }: { product: Product; index: number; total: number }) {
   return (
-    <a
-      href={`#${product.slug}`}
+    <Link
+      href={`/lociones/${product.slug}`}
       className="group relative flex w-[78vw] shrink-0 snap-start flex-col sm:w-[46vw] lg:w-[34vw] xl:w-[30vw]"
     >
       <div
@@ -102,6 +103,6 @@ function FeaturedCard({ product, index, total }: { product: Product; index: numb
       <p className="mt-1 text-sm text-muted-foreground">
         {product.notes.length > 0 ? product.notes.join(" · ") : product.size ?? product.badge}
       </p>
-    </a>
+    </Link>
   )
 }

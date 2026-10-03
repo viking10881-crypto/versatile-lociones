@@ -3,8 +3,6 @@ import { Collection } from "@/components/site/collection"
 import { Cta } from "@/components/site/cta"
 import { EmptyCatalog } from "@/components/site/empty-catalog"
 import { Families } from "@/components/site/families"
-import { Footer } from "@/components/site/footer"
-import { Header } from "@/components/site/header"
 import { Hero } from "@/components/site/hero"
 import { Manifesto } from "@/components/site/manifesto"
 import { Marquee } from "@/components/site/marquee"
@@ -27,7 +25,6 @@ export default async function Home() {
 
   return (
     <>
-      <Header />
       <main className="flex-1">
         <Hero product={hero} />
         <Marquee words={familiesWithProducts.map((family) => family.name)} />
@@ -45,7 +42,6 @@ export default async function Home() {
         )}
         <Cta />
       </main>
-      <Footer />
     </>
   )
 }

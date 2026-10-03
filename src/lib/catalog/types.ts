@@ -7,13 +7,22 @@ export type Product = {
   familySlug: string
   notes: string[]
   size?: string
+  /** Precio final (con descuento) en la moneda del negocio; para el carrito. */
+  price: number
+  currency: string
   priceLabel: string
   /** Precio antes del descuento, solo si hay descuento activo. */
   compareAtLabel?: string
   hue: number
+  /** Imagen principal; también es la primera de `images`. */
   image?: string
+  images: string[]
+  /** Descripción del admin sin la línea de notas. */
+  description?: string
   badge?: string
   available: boolean
+  /** Unidades máximas que se pueden agregar al carrito. */
+  maxQuantity: number
 }
 
 export type Family = {

@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef } from "react"
+import Link from "next/link"
 import {
   motion,
   useMotionValue,
@@ -142,9 +143,9 @@ export function Hero({ product }: { product?: Product }) {
             className="flex flex-wrap items-center gap-3"
           >
             <Button asChild size="lg" className="h-12 rounded-full px-6">
-              <a href="#coleccion">
+              <Link href="/lociones">
                 Descubrir colección <ArrowRight data-icon="inline-end" />
-              </a>
+              </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="h-12 rounded-full bg-transparent px-6">
               <a href="#familias">Encuentra tu aroma</a>

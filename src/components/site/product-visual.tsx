@@ -55,7 +55,7 @@ export function ProductVisual({
   sizes = "(min-width: 1024px) 33vw, 80vw",
   priority,
 }: {
-  product: Product
+  product: Pick<Product, "name" | "size" | "image" | "hue">
   className?: string
   sizes?: string
   priority?: boolean

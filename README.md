@@ -17,7 +17,7 @@ pnpm dev
    ```
    DELASOFT_PUBLIC_API_URL=https://delasoft-back.onrender.com/public-api/v1
    DELASOFT_PUBLIC_API_KEY=ak_...
-   DELASOFT_STORE_ORIGIN=https://versatille-lociones-delasoft.vercel.app
+   DELASOFT_STORE_ORIGIN=https://versatille-lociones.vercel.app
    ```
 
    `DELASOFT_STORE_ORIGIN` debe coincidir con uno de los orígenes permitidos de la clave; si no,

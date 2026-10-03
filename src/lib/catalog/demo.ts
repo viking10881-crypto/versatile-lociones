@@ -22,10 +22,15 @@ const products: Product[] = raw.map((item) => ({
   familySlug: slugify(item.family),
   notes: item.notes,
   size: item.size,
+  price: item.price,
+  currency: "COP",
   priceLabel: formatPrice(item.price),
   hue: item.hue ?? familyStyle(item.family).hue,
+  images: [],
+  description: `${item.name} es una fragancia ${item.family.toLowerCase()} con notas de ${item.notes.join(", ").toLowerCase()}. Datos de ejemplo mientras se conecta Delasoft.`,
   badge: item.badge,
   available: true,
+  maxQuantity: 10,
 }))
 
 const families: Family[] = ["Floral", "Amaderada", "Cítrica", "Oriental"].map((name) => ({

@@ -12,6 +12,11 @@ export function formatPrice(value: number, currency = "COP") {
   }
 }
 
+/** "locion mujer" → "Locion Mujer": las categorías del admin no siempre vienen capitalizadas. */
+export function titleCase(value: string) {
+  return value.replace(/(^|\s)(\p{L})/gu, (_, space: string, letter: string) => space + letter.toUpperCase())
+}
+
 export function slugify(value: string) {
   return value
     .normalize("NFD")

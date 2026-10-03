@@ -27,7 +27,10 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               {column.links.map((link) => (
                 <li key={link}>
-                  <a href="#" className="opacity-80 transition-opacity hover:opacity-100">
+                  <a
+                    href={link === "Colección" ? "/lociones" : "#"}
+                    className="opacity-80 transition-opacity hover:opacity-100"
+                  >
                     {link}
                   </a>
                 </li>

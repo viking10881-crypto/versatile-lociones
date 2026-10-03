@@ -1,6 +1,6 @@
 import "server-only"
 
-import { familyStyle, formatPrice, slugify } from "./format"
+import { familyStyle, formatPrice, slugify, titleCase } from "./format"
 import type { Catalog, Family, Product } from "./types"
 
 // Contrato de la API pública de Delasoft (delasoft_back/routes/public-api.routes.js).
@@ -20,6 +20,7 @@ type ApiProduct = {
   discount_value: string | number | null
   stock: number
   stock_status: "normal" | "low" | "out"
+  fulfillment_mode: "stock" | "on_demand" | "hybrid" | null
   category_name: string | null
   category_slug: string | null
   main_image: string | null
@@ -28,6 +29,7 @@ type ApiProduct = {
 }
 
 type ApiCategory = {
+  name: string
   slug: string
   description: string | null
   children?: ApiCategory[]
@@ -87,7 +89,9 @@ function parseNotes(description: string | null) {
 function parseSize(product: ApiProduct) {
   const swatch = product.variant_swatches?.find((s) => SIZE_ATTRIBUTE.test(s.attribute_slug))
   if (swatch) return swatch.display_value
-  return (product.name.match(SIZE_IN_TEXT) ?? product.description?.match(SIZE_IN_TEXT))?.[1]
+  const match = product.name.match(SIZE_IN_TEXT) ?? product.description?.match(SIZE_IN_TEXT)
+  // "90Ml", "90 ML", "90ml" → "90 ml"
+  return match ? `${match[1].replace(/\s?ml$/i, "").replace(",", ".")} ml` : undefined
 }
 
 function badgeFor(product: ApiProduct) {
@@ -100,35 +104,57 @@ function badgeFor(product: ApiProduct) {
   return undefined
 }
 
-function mainImage(product: ApiProduct) {
-  return (
-    product.main_image ??
-    product.images.find((image) => image.is_main)?.url ??
-    product.images[0]?.url ??
-    undefined
-  )
+/** Todas las fotos del producto, con la principal primero y sin repetidas. */
+function productImages(product: ApiProduct) {
+  const ordered = [
+    product.main_image,
+    ...product.images.filter((image) => image.is_main).map((image) => image.url),
+    ...product.images.map((image) => image.url),
+  ]
+  return [...new Set(ordered.filter((url): url is string => Boolean(url)))]
+}
+
+function cleanDescription(description: string | null) {
+  const text = description?.replace(NOTES_LINE, "").trim()
+  return text || undefined
+}
+
+// Sobre pedido no hay tope de stock; se limita para evitar pedidos accidentales.
+const MAX_PER_ORDER = 10
+
+function maxQuantity(product: ApiProduct) {
+  if (product.stock_status === "out") return 0
+  if (product.fulfillment_mode === "on_demand" || product.fulfillment_mode === "hybrid") return MAX_PER_ORDER
+  return Math.max(1, Math.min(product.stock, MAX_PER_ORDER))
 }
 
 function toProduct(product: ApiProduct, currency: string): Product {
-  const family = product.category_name ?? "Colección"
+  const family = titleCase(product.category_name ?? "Colección")
   const basePrice = Number(product.sale_price)
   const finalPrice = Number(product.final_price ?? product.sale_price)
   const discounted = finalPrice < basePrice
+  const images = productImages(product)
 
   return {
     id: String(product.id),
     slug: `${slugify(product.name)}-${product.id}`,
     name: product.name,
     family,
-    familySlug: product.category_slug ?? slugify(family),
+    // Se deriva del nombre: el slug que guarda el admin puede ser poco legible (p. ej. "l").
+    familySlug: slugify(family),
     notes: parseNotes(product.description),
     size: parseSize(product),
+    price: finalPrice,
+    currency,
     priceLabel: formatPrice(finalPrice, currency),
     compareAtLabel: discounted ? formatPrice(basePrice, currency) : undefined,
     hue: familyStyle(family).hue,
-    image: mainImage(product),
+    image: images[0],
+    images,
+    description: cleanDescription(product.description),
     badge: badgeFor(product),
     available: product.stock_status !== "out",
+    maxQuantity: maxQuantity(product),
   }
 }
 
@@ -137,7 +163,7 @@ function toFamilies(products: Product[], categories: ApiCategory[] | null): Fami
   const descriptions = new Map<string, string>()
   const collect = (items: ApiCategory[]) => {
     for (const category of items) {
-      if (category.description) descriptions.set(category.slug, category.description)
+      if (category.description) descriptions.set(slugify(category.name), category.description)
       collect(category.children ?? [])
     }
   }
