@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Versatille — tienda de lociones
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 + shadcn/ui + Motion + Lenis. Los productos se administran desde **Delasoft** (`delasoft_front`).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Conectar con Delasoft
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. En el admin de Delasoft: **Herramientas → API Keys** → crear una clave con el permiso
+   **Ver productos** (`products:read`). Opcional: **Ver categorías** (`categories:read`) para usar
+   las descripciones de las categorías.
+2. Copiar `.env.example` a `.env.local` (y configurar las mismas variables en Vercel):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```
+   DELASOFT_PUBLIC_API_URL=https://delasoft-back.onrender.com/public-api/v1
+   DELASOFT_PUBLIC_API_KEY=ak_...
+   DELASOFT_STORE_ORIGIN=https://versatille-lociones-delasoft.vercel.app
+   ```
 
-## Learn More
+   `DELASOFT_STORE_ORIGIN` debe coincidir con uno de los orígenes permitidos de la clave; si no,
+   Delasoft responde `ORIGIN_NOT_ALLOWED`.
 
-To learn more about Next.js, take a look at the following resources:
+Sin `DELASOFT_PUBLIC_API_KEY` la tienda muestra productos de ejemplo (`src/lib/catalog/demo.ts`).
+La clave solo se usa en el servidor y nunca llega al navegador.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Cómo cargar los productos en el admin
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| En el admin de Delasoft | En la tienda |
+|---|---|
+| Producto **activo y publicado** | Aparece en máximo 60 s |
+| Categoría (p. ej. *Florales*, *Amaderadas*) | Familia olfativa y color del frasco |
+| Imagen principal | Foto del producto (mejor con fondo blanco o transparente) |
+| Línea `Notas: Ámbar, Vainilla, Oud` en la descripción | Notas olfativas |
+| Variante de tamaño, o `100 ml` en el nombre | Tamaño |
+| Descuento con alcance *web* o *todos* | Precio rebajado y etiqueta `-20%` |
+| Stock en 0 / bajo el mínimo | Etiqueta *Agotado* / *Últimas unidades* |
+| Moneda del perfil del negocio | Formato de precios (COP por defecto) |
 
-## Deploy on Vercel
+El producto destacado de la portada es el más reciente que tenga foto.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Estructura
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/lib/catalog/delasoft.ts` — cliente de la API pública y mapeo al modelo de la tienda.
+- `src/lib/catalog/index.ts` — `getCatalog()`: Delasoft o datos de ejemplo. Si Delasoft falla
+  durante una revalidación se sigue sirviendo la última versión buena.
+- `src/components/site/*` — secciones de la home.
