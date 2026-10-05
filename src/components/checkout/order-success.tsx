@@ -17,7 +17,7 @@ export type PlacedOrder = {
 
 function buildMessage(order: PlacedOrder) {
   return [
-    "Hola Versatille, acabo de hacer un pedido y pagué por Nequi.",
+    "Hola Versatile, acabo de hacer un pedido y pagué por Nequi.",
     "",
     `*Pedido:* ${order.saleNumber}`,
     `*Cliente:* ${order.customer.name} (${order.customer.email})`,

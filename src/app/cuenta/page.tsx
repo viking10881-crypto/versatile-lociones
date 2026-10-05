@@ -10,7 +10,7 @@ import { formatPrice } from "@/lib/catalog/format"
 import { delasoftApi } from "@/lib/delasoft/api"
 import { whatsappLink } from "@/lib/store-config"
 
-export const metadata: Metadata = { title: "Mi cuenta — Versatille" }
+export const metadata: Metadata = { title: "Mi cuenta — Versatile" }
 
 type Order = {
   id: number
@@ -93,7 +93,7 @@ export default async function CuentaPage() {
                         <Button asChild size="sm" variant="ghost" className="rounded-full">
                           <a
                             href={whatsappLink(
-                              `Hola Versatille, envío el comprobante de mi pedido ${order.order_code} por ${total}: ${receipt}`,
+                              `Hola Versatile, envío el comprobante de mi pedido ${order.order_code} por ${total}: ${receipt}`,
                             )}
                             target="_blank"
                             rel="noopener noreferrer"

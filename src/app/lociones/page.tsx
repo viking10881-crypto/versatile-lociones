@@ -8,7 +8,7 @@ import { getCatalog } from "@/lib/catalog"
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: "Lociones — Versatille",
+  title: "Lociones — Versatile",
   description: "Explora todas nuestras lociones y fragancias por familia olfativa.",
 }
 

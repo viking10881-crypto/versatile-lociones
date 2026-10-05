@@ -4,7 +4,7 @@ import { CheckoutForm } from "@/components/checkout/checkout-form"
 import { getAccessToken, getSessionUser } from "@/lib/auth/session"
 import { delasoftApi } from "@/lib/delasoft/api"
 
-export const metadata: Metadata = { title: "Finalizar compra — Versatille" }
+export const metadata: Metadata = { title: "Finalizar compra — Versatile" }
 
 type Profile = { name: string; email: string; phone: string | null; city: string | null; address: string | null }
 

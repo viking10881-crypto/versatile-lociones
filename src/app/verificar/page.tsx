@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { AuthShell } from "@/components/auth/auth-shell"
 import { VerifyForm } from "@/components/auth/verify-form"
 
-export const metadata: Metadata = { title: "Verificar correo — Versatille" }
+export const metadata: Metadata = { title: "Verificar correo — Versatile" }
 
 export default async function VerificarPage({ searchParams }: PageProps<"/verificar">) {
   const params = await searchParams

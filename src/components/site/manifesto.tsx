@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, type MotionValue } from "motion/react"
 import { Reveal } from "@/components/motion/reveal"
 
 const text =
-  "Creemos que un aroma es memoria que se lleva puesta. Cada loción Versatille nace de ingredientes seleccionados y se equilibra para acompañarte del primer café a la última copa."
+  "Creemos que un aroma es memoria que se lleva puesta. Cada loción Versatile nace de ingredientes seleccionados y se equilibra para acompañarte del primer café a la última copa."
 
 /** Párrafo que se ilumina palabra por palabra mientras se recorre. */
 export function Manifesto() {

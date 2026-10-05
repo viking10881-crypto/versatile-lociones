@@ -28,11 +28,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/lociones/[slug]">): Promise<Metadata> {
   const { slug } = await params
   const product = await getProduct(slug)
-  if (!product) return { title: "Loción no encontrada — Versatille" }
+  if (!product) return { title: "Loción no encontrada — Versatile" }
   const description =
     product.description?.slice(0, 155) ?? `${product.name}, fragancia ${product.family.toLowerCase()}.`
   return {
-    title: `${product.name} — Versatille`,
+    title: `${product.name} — Versatile`,
     description,
     openGraph: { title: product.name, description, images: product.images.slice(0, 1) },
   }

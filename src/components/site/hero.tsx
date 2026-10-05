@@ -87,7 +87,7 @@ export function Hero({ product, banner }: { product?: Product; banner?: Banner }
           style={{ scale: titleScale, opacity: titleOpacity }}
           className="pointer-events-none absolute will-change-transform inset-x-0 top-1/2 -translate-y-1/2 text-center font-serif text-[16.5vw] leading-none font-light whitespace-nowrap uppercase select-none lg:text-[16vw]"
         >
-          <SplitText text="Versatille" by="chars" stagger={0.035} delay={0.1} duration={0.8} animateOnMount />
+          <SplitText text="Versatile" by="chars" stagger={0.035} delay={0.1} duration={0.8} animateOnMount />
         </motion.h1>
 
         {/* Notas flotantes con parallax a distintas velocidades */}

@@ -24,7 +24,7 @@ const display = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Versatille — Lociones y fragancias",
+  title: "Versatile — Lociones y fragancias",
   description:
     "Lociones y fragancias de autor. Descubre tu aroma entre notas florales, amaderadas, cítricas y orientales.",
 };

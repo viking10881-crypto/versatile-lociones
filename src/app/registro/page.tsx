@@ -4,7 +4,7 @@ import { AuthShell } from "@/components/auth/auth-shell"
 import { RegisterForm } from "@/components/auth/register-form"
 import { getSessionUser } from "@/lib/auth/session"
 
-export const metadata: Metadata = { title: "Crear cuenta — Versatille" }
+export const metadata: Metadata = { title: "Crear cuenta — Versatile" }
 
 export default async function RegistroPage({ searchParams }: PageProps<"/registro">) {
   const params = await searchParams

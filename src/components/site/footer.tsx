@@ -42,7 +42,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 pt-16 sm:px-8">
         <Separator className="bg-white/10" />
         <div className="flex flex-col justify-between gap-2 py-6 text-xs text-[oklch(0.7_0.02_80)] sm:flex-row">
-          <p>© {new Date().getFullYear()} Versatille. Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} Versatile. Todos los derechos reservados.</p>
           <p>Aviso de privacidad · Términos</p>
         </div>
       </div>
@@ -51,7 +51,7 @@ export function Footer() {
         style={{ y }}
         className="-mb-[0.18em] text-center font-serif text-[22vw] leading-none font-light tracking-tight uppercase select-none"
       >
-        Versatille
+        Versatile
       </motion.p>
     </footer>
   )

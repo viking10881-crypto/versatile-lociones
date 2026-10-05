@@ -29,7 +29,7 @@ export function Cta() {
         <div aria-hidden className="absolute -top-1/3 left-1/2 size-[130vmin] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,oklch(0.6_0.1_70/0.3),transparent)]" />
         <div className="relative mx-auto grid min-h-svh max-w-7xl items-center gap-12 px-4 py-24 sm:px-8 lg:grid-cols-[1.2fr_1fr]">
           <div>
-            <p className="mb-6 text-xs tracking-[0.3em] text-muted-foreground uppercase">Club Versatille</p>
+            <p className="mb-6 text-xs tracking-[0.3em] text-muted-foreground uppercase">Club Versatile</p>
             <h2 className="font-serif text-5xl leading-[1.05] font-light text-balance sm:text-7xl">
               <SplitText text="Recibe muestras antes que nadie" />
             </h2>

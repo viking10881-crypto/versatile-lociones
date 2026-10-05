@@ -1,4 +1,4 @@
-# Versatille — tienda de lociones
+# Versatile — tienda de lociones
 
 Next.js 16 + shadcn/ui + Motion + Lenis. Los productos se administran desde **Delasoft** (`delasoft_front`).
 

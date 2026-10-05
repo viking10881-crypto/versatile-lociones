@@ -55,7 +55,7 @@ export function Header() {
         )}
       >
         <Link href="/" className="font-serif text-2xl tracking-[0.2em] uppercase">
-          Versatille
+          Versatile
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-8 lg:flex">
@@ -109,7 +109,7 @@ export function Header() {
             <SheetContent side="right" className="w-full sm:max-w-sm">
               <SheetHeader>
                 <SheetTitle className="font-serif text-2xl tracking-[0.2em] uppercase">
-                  Versatille
+                  Versatile
                 </SheetTitle>
                 <SheetDescription className="sr-only">Navegación principal</SheetDescription>
               </SheetHeader>

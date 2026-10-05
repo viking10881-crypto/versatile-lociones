@@ -43,7 +43,7 @@ export function BottleArt({ hue, className }: { hue: number; className?: string 
         fill="oklch(0.25 0.01 60)"
         fontFamily="serif"
       >
-        VERSATILLE
+        VERSATILE
       </text>
     </svg>
   )

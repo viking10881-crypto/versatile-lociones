@@ -4,7 +4,7 @@ import { AuthShell } from "@/components/auth/auth-shell"
 import { LoginForm } from "@/components/auth/login-form"
 import { getSessionUser } from "@/lib/auth/session"
 
-export const metadata: Metadata = { title: "Ingresar — Versatille" }
+export const metadata: Metadata = { title: "Ingresar — Versatile" }
 
 function safeNext(value: unknown) {
   return typeof value === "string" && value.startsWith("/") && !value.startsWith("//") ? value : "/cuenta"
