@@ -1,7 +1,7 @@
 import "server-only"
 
 import { familyStyle, formatPrice, slugify, titleCase } from "./format"
-import type { Catalog, Family, Product } from "./types"
+import type { Banner, Catalog, Family, Product } from "./types"
 
 // Contrato de la API pública de Delasoft (delasoft_back/routes/public-api.routes.js).
 
@@ -36,6 +36,32 @@ type ApiCategory = {
 }
 
 type ApiProfile = { currency: string | null } | null
+
+type ApiBanner = {
+  id: number
+  title: string
+  description: string | null
+  image_url: string
+  button_text: string | null
+  button_link: string | null
+}
+
+/** "/productos" es el enlace por defecto del admin; en esta tienda el catálogo vive en /lociones. */
+function bannerLink(link: string | null) {
+  if (!link || link === "/productos" || link.startsWith("/productos/")) return "/lociones"
+  return link
+}
+
+function toBanner(banner: ApiBanner): Banner {
+  return {
+    id: String(banner.id),
+    title: banner.title,
+    description: banner.description ?? undefined,
+    image: banner.image_url,
+    buttonText: banner.button_text ?? undefined,
+    buttonLink: bannerLink(banner.button_link),
+  }
+}
 
 type ApiResponse<T> = { success: boolean; data: T; message?: string }
 
@@ -184,11 +210,13 @@ function toFamilies(products: Product[], categories: ApiCategory[] | null): Fami
 }
 
 export async function fetchDelasoftCatalog(): Promise<Catalog> {
-  const [apiProducts, categories, profile] = await Promise.all([
+  const [apiProducts, categories, profile, banners] = await Promise.all([
     delasoftFetch<ApiProduct[]>("/products?limit=100&sort=newest"),
     // Solo aporta descripciones y requiere el permiso "categories:read"; es opcional.
     delasoftFetch<ApiCategory[]>("/categories").catch(() => null),
     delasoftFetch<ApiProfile>("/profile").catch(() => null),
+    // Opcional: sin banners la portada muestra el producto destacado.
+    delasoftFetch<ApiBanner[]>("/banners").catch(() => [] as ApiBanner[]),
   ])
   const currency = profile?.currency || "COP"
   const products = apiProducts.map((product) => toProduct(product, currency))
@@ -196,6 +224,7 @@ export async function fetchDelasoftCatalog(): Promise<Catalog> {
   return {
     products,
     families: toFamilies(products, categories),
+    banners: banners.filter((banner) => banner.image_url).map(toBanner),
     source: "delasoft",
   }
 }

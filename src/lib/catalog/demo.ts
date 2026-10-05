@@ -39,4 +39,4 @@ const families: Family[] = ["Floral", "Amaderada", "Cítrica", "Oriental"].map((
   ...familyStyle(name),
 }))
 
-export const demoCatalog: Catalog = { products, families, source: "demo" }
+export const demoCatalog: Catalog = { products, families, banners: [], source: "demo" }

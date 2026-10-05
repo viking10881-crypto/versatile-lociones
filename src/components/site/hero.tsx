@@ -13,7 +13,9 @@ import {
 import { ArrowDown, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SplitText, ease } from "@/components/motion/reveal"
-import type { Product } from "@/lib/catalog/types"
+import Image from "next/image"
+import type { Banner, Product } from "@/lib/catalog/types"
+import { cn } from "@/lib/utils"
 import { BottleArt, ProductVisual } from "./product-visual"
 
 const notePositions = [
@@ -29,8 +31,9 @@ function heroNotes(product?: Product) {
   return labels.slice(0, notePositions.length).map((label, i) => ({ label, ...notePositions[i] }))
 }
 
-export function Hero({ product }: { product?: Product }) {
-  const floatingNotes = heroNotes(product)
+export function Hero({ product, banner }: { product?: Product; banner?: Banner }) {
+  // Con banner, la imagen del admin (p. ej. el logo) ocupa el centro y no hay notas del producto.
+  const floatingNotes = banner ? [] : heroNotes(product)
 
   const ref = useRef<HTMLElement>(null)
   // Sin resorte extra: Lenis ya suaviza el scroll, así la escena responde al instante.
@@ -95,7 +98,12 @@ export function Hero({ product }: { product?: Product }) {
         {/* Frasco */}
         <motion.div
           style={{ y: bottleY, rotate: bottleRotate, scale: bottleScale }}
-          className="relative z-10 -mt-[12svh] will-change-transform h-[40svh] w-[25svh] perspective-[1000px] md:mt-0 md:h-[52svh] md:w-[33svh]"
+          className={cn(
+            "relative z-10 -mt-[12svh] will-change-transform perspective-[1000px] md:mt-0",
+            banner
+              ? "h-[42svh] w-[42svh] max-w-[86vw] md:h-[58svh] md:w-[58svh]"
+              : "h-[40svh] w-[25svh] md:h-[52svh] md:w-[33svh]",
+          )}
         >
           <motion.div
             initial={{ opacity: 0, y: 80, scale: 0.92 }}
@@ -109,9 +117,29 @@ export function Hero({ product }: { product?: Product }) {
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               className="relative h-full w-full"
             >
+              {/* Halo del color de fondo: el titular gigante se desvanece detrás del logo */}
+              {banner ? (
+                <div
+                  aria-hidden
+                  className="absolute inset-[16%] rounded-full bg-[radial-gradient(closest-side,var(--background)_55%,transparent)] md:inset-[-6%]"
+                />
+              ) : null}
+              {banner ? (
+                <Image
+                  src={banner.image}
+                  alt={banner.title}
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 58vh, 86vw"
+                  // multiply funde el fondo blanco de la imagen con el degradado de la portada
+                  className="object-contain mix-blend-multiply"
+                />
+              ) : null}
               {/* Sombra estática con degradado: evita recalcular drop-shadow() en cada fotograma */}
-              <div aria-hidden className="absolute inset-x-[-20%] bottom-[-8%] h-[24%] rounded-[50%] bg-[radial-gradient(closest-side,oklch(0.3_0.05_60/0.28),transparent)]" />
-              {product ? (
+              {banner ? null : (
+                <div aria-hidden className="absolute inset-x-[-20%] bottom-[-8%] h-[24%] rounded-[50%] bg-[radial-gradient(closest-side,oklch(0.3_0.05_60/0.28),transparent)]" />
+              )}
+              {banner ? null : product ? (
                 <ProductVisual product={product} priority sizes="40vh" />
               ) : (
                 <BottleArt hue={60} className="relative h-full w-full" />
@@ -131,9 +159,12 @@ export function Hero({ product }: { product?: Product }) {
             transition={{ duration: 0.8, ease, delay: 0.5 }}
             className="max-w-sm"
           >
-            <p className="text-xs tracking-[0.3em] text-muted-foreground uppercase">Colección 2026</p>
+            <p className="text-xs tracking-[0.3em] text-muted-foreground uppercase">
+              {banner?.title ?? "Colección 2026"}
+            </p>
             <p className="mt-3 text-pretty text-sm leading-relaxed text-foreground/80 sm:text-base">
-              Lociones de autor que evolucionan contigo: de la frescura de la mañana a la intensidad de la noche.
+              {banner?.description ??
+                "Lociones de autor que evolucionan contigo: de la frescura de la mañana a la intensidad de la noche."}
             </p>
           </motion.div>
           <motion.div
@@ -143,8 +174,8 @@ export function Hero({ product }: { product?: Product }) {
             className="flex flex-wrap items-center gap-3"
           >
             <Button asChild size="lg" className="h-12 rounded-full px-6">
-              <Link href="/lociones">
-                Descubrir colección <ArrowRight data-icon="inline-end" />
+              <Link href={banner?.buttonLink ?? "/lociones"}>
+                {banner?.buttonText ?? "Descubrir colección"} <ArrowRight data-icon="inline-end" />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="h-12 rounded-full bg-transparent px-6">

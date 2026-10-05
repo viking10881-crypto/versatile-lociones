@@ -32,9 +32,20 @@ export type Family = {
   hue: number
 }
 
+/** Banner del admin de Delasoft: su imagen ocupa el centro de la portada. */
+export type Banner = {
+  id: string
+  title: string
+  description?: string
+  image: string
+  buttonText?: string
+  buttonLink?: string
+}
+
 export type Catalog = {
   products: Product[]
   families: Family[]
+  banners: Banner[]
   /** "demo" mientras no esté configurada la clave de Delasoft. */
   source: "delasoft" | "demo"
 }

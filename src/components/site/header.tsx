@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react"
-import { Menu, ShoppingBag } from "lucide-react"
+import { Menu, ShoppingBag, UserRound } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -72,6 +72,11 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1">
+          <Button asChild variant="ghost" size="icon-lg" aria-label="Mi cuenta">
+            <Link href="/cuenta">
+              <UserRound />
+            </Link>
+          </Button>
           <Button
             variant="ghost"
             size="icon-lg"

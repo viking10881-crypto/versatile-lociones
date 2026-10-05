@@ -29,7 +29,7 @@ export const getCatalog = cache(async (): Promise<Catalog> => {
     // error para que Next siga sirviendo la última versión buena (p. ej. si Render
     // está despertando) y lo reintente en la siguiente.
     if (process.env.NEXT_PHASE === "phase-production-build") {
-      return { products: [], families: [], source: "delasoft" }
+      return { products: [], families: [], banners: [], source: "delasoft" }
     }
     throw error
   }

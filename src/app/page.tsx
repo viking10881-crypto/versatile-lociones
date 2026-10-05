@@ -12,7 +12,7 @@ import { getCatalog } from "@/lib/catalog"
 export const revalidate = 60
 
 export default async function Home() {
-  const { products, families } = await getCatalog()
+  const { products, families, banners } = await getCatalog()
 
   // Destacado: el producto disponible más reciente que tenga foto.
   const hero = products.find((p) => p.available && p.image) ?? products.find((p) => p.available) ?? products[0]
@@ -26,7 +26,8 @@ export default async function Home() {
   return (
     <>
       <main className="flex-1">
-        <Hero product={hero} />
+        {/* El primer banner activo del admin manda en la portada; si no hay, el producto destacado. */}
+        <Hero product={hero} banner={banners[0]} />
         <Marquee words={familiesWithProducts.map((family) => family.name)} />
         <Manifesto />
         {products.length > 0 ? (

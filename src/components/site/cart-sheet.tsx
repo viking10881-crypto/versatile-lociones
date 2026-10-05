@@ -120,12 +120,12 @@ export function CartSheet() {
                 <span className="text-sm text-muted-foreground">Subtotal</span>
                 <span className="text-xl font-medium tabular-nums">{subtotalLabel}</span>
               </div>
-              <p className="text-xs text-muted-foreground">Envío calculado al finalizar la compra.</p>
-              {/* El pago se conecta con las ventas de Delasoft en el siguiente paso. */}
-              <Button size="lg" className="h-12 w-full rounded-full" disabled>
-                Finalizar compra
-              </Button>
-              <p className="text-center text-xs text-muted-foreground">Pago en línea muy pronto.</p>
+              <p className="text-xs text-muted-foreground">Paga con Nequi. El envío se coordina por WhatsApp.</p>
+              <SheetClose asChild>
+                <Button asChild size="lg" className="h-12 w-full rounded-full">
+                  <Link href="/checkout">Finalizar compra</Link>
+                </Button>
+              </SheetClose>
             </SheetFooter>
           </>
         )}
